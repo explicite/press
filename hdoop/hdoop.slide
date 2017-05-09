@@ -43,11 +43,12 @@ open-source software for reliable, scalable, distributed computing ...
 
 * Testing
 
-- Run the mapreduce
+- Run the mapreduce example
  cd $HADOOP_PREFIX
- bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.1.jar grep input output 'dfs[a-z.]+'
+ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.1.jar \
+ grep input output 'dfs[a-z.]+'
 
-- Check teh output
+- Check the output
  bin/hdfs dfs -cat output/*
 
 
