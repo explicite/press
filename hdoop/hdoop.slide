@@ -16,11 +16,18 @@ open-source software for reliable, scalable, distributed computing ...
 
 * MapReduce
 
-Some Text ...
+.image img/mapreduce.png 170 _
+
+.caption MapReduce pipeline
+.caption Mapper (Key, Value) -> (Key, Value)
+.caption Reducer (Key, Iterable[Value]) -> (Key, Value)
+.caption Partitioning | Sorting | Grouping (Key, Value) -> (Key, Iterable[Value])
 
 * HDFS
 
-Some Text ...
+.image img/hdfsarchitecture.png 400 _ 
+
+.link https://www.youtube.com/watch?v=4Gfl0WuONMY YouTube - Understanding HDFS using Legos
 
 * Hadoop modules
 
@@ -31,4 +38,16 @@ Some Text ...
 
 * Workshop
 
-Some Text
+- Pull docker image
+ docker run -it sequenceiq/hadoop-docker:2.7.1 /etc/bootstrap.sh -bash 
+
+* Testing
+
+- Run the mapreduce
+ cd $HADOOP_PREFIX
+ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.1.jar grep input output 'dfs[a-z.]+'
+
+- Check teh output
+ bin/hdfs dfs -cat output/*
+
+
