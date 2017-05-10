@@ -12,7 +12,21 @@ draft
 
 * What Is Apache Hadoop?
 
-open-source software for reliable, scalable, distributed computing ...
+- OS implementation MapReduce
+.link https://research.google.com/archive/mapreduce.html Google - Appeared on 2004 Dec
+
+ programming model for processing and generating large data sets
+
+- First commit on 2005 May and still developed
+
+- Alternatives
+.link http://flink.apache.org/ Flink
+.link http://spark.apache.org/ Spark
+.link http://storm.apache.org/ Storm
+.link https://streamsets.com/ StreamSets
+
+* What Is MapReduce?
+- programming model and an associated implementation for processing and generating large data sets
 
 * MapReduce
 
@@ -25,7 +39,7 @@ open-source software for reliable, scalable, distributed computing ...
 
 * HDFS
 
-.image img/hdfs.png 400 _ 
+.image img/hdfs.png 400 _
 
 .link https://www.youtube.com/watch?v=4Gfl0WuONMY YouTube - Understanding HDFS using Legos
 
@@ -35,20 +49,78 @@ open-source software for reliable, scalable, distributed computing ...
 - Hadoop Distributed File System (HDFS)
 - Hadoop YARN
 - Hadoop MapReduce
+- ...
 
 * Workshop
 
-- Pull docker image
- docker run -it sequenceiq/hadoop-docker:2.7.1 /etc/bootstrap.sh -bash 
+- Rund hadoop in docker
+ you@localhost docker-compose up
+
+- Check docker hash
+ you@localhost docker ps
+
+- Exec bash on hadoop host
+ you@localhost docker exec -it `hash` bash
+
+- Move to hadoop dir
+ hadoop@docker cd $HADOOP_PREFIX
 
 * Testing
 
 - Run the mapreduce example
- cd $HADOOP_PREFIX
- bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.1.jar \
+ hadoop@docker bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.1.jar \
  grep input output 'dfs[a-z.]+'
 
 - Check the output
- bin/hdfs dfs -cat output/*
+ hadoop@docker bin/hdfs dfs -cat output/*
 
+* MapReduce
 
+- Open file
+ com.virtuslab.MapReduceExample.java
+
+- Reducer
+
+- Mapper
+
+* MapReduce
+
+- Copy input to docker
+ you@localhost cp src/main/resources/sample_text ~/input
+
+- Add file to hdfs
+ hadoop@docker bin/hadoop fs -mkdir input //if not exist
+ hadoop@docker bin/hadoop fs -put input/sample_text input
+
+- Create ouput dir
+ hadoop@docker bin/hadoop fs -mkdir output //if not exist
+
+* MapReduce
+
+- Compile source
+ you@localhost sbt assembly
+
+- Copy *.jar to docker
+ you@localhost cp target/hadoop-example-2.7.1.jar ~/jobs
+
+- Run job
+ hadoop@docker bin/hadoop jar jobs/hadoop-example-2.7.1.jar input output
+
+ ...
+ CONNECTION=0
+ IO_ERROR=0
+ WRONG_LENGTH=0
+ WRONG_MAP=0
+ WRONG_REDUCE=0
+ File Input Format Counters
+ Bytes Read=336
+ File Output Format Counters
+ Bytes Written=24
+
+* MapReduce
+ - Check result
+ bin/hadoop fs -copyToLocal output/part-00000 ./otuput/result
+
+ 1981	34
+ 1984	40
+ 1985	45

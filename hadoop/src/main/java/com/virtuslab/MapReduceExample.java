@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
-public class ProcessUnits {
+public class MapReduceExample {
     //Mapper class
-    public static class E_EMapper extends MapReduceBase implements
+    public static class ExampleMapper extends MapReduceBase implements
             Mapper<LongWritable,    /*Input key Type */
                     Text,           /*Input value Type*/
                     Text,           /*Output key Type*/
@@ -23,23 +23,22 @@ public class ProcessUnits {
                         OutputCollector<Text, IntWritable> output,
                         Reporter reporter) throws IOException {
             String line = value.toString();
-            String lasttoken = null;
-            StringTokenizer s = new StringTokenizer(line, "\t");
+            String lastToken = null;
+            StringTokenizer s = new StringTokenizer(line, " ");
             String year = s.nextToken();
 
             while (s.hasMoreTokens()) {
-                lasttoken = s.nextToken();
+                lastToken = s.nextToken();
             }
 
-            assert lasttoken != null;
-            int avgprice = Integer.parseInt(lasttoken);
+            int avgprice = Integer.parseInt(lastToken);
             output.collect(new Text(year), new IntWritable(avgprice));
         }
     }
 
 
     //Reducer class
-    public static class E_EReduce extends MapReduceBase implements
+    public static class ExampleReduce extends MapReduceBase implements
             Reducer<Text, IntWritable, Text, IntWritable> {
 
         //Reduce function
@@ -57,23 +56,21 @@ public class ProcessUnits {
         }
     }
 
-
-    //Main function
-    public static void main(String args[]) throws Exception {
-        JobConf conf = new JobConf(ProcessUnits.class);
+    public static JobConf getJob(String[] args) throws Exception {
+        JobConf conf = new JobConf(MapReduceExample.class);
 
         conf.setJobName("max_eletricityunits");
         conf.setOutputKeyClass(Text.class);
         conf.setOutputValueClass(IntWritable.class);
-        conf.setMapperClass(E_EMapper.class);
-        conf.setCombinerClass(E_EReduce.class);
-        conf.setReducerClass(E_EReduce.class);
+        conf.setMapperClass(ExampleMapper.class);
+        conf.setCombinerClass(ExampleReduce.class);
+        conf.setReducerClass(ExampleReduce.class);
         conf.setInputFormat(TextInputFormat.class);
         conf.setOutputFormat(TextOutputFormat.class);
 
         FileInputFormat.setInputPaths(conf, new Path(args[0]));
         FileOutputFormat.setOutputPath(conf, new Path(args[1]));
 
-        JobClient.runJob(conf);
+        return conf;
     }
 }

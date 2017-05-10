@@ -15,9 +15,11 @@ libraryDependencies ++= Seq(
   "org.apache.hadoop" % "hadoop-common" % hadoopVersion
 )
 
-jarName in assembly := s"${name.value}-$hadoopVersion.jar"
+jarName in assembly := s"${name.value}-$hadoopVersion.jar" //Artifact name
 
 mergeStrategy in assembly := {
   case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
   case _ => MergeStrategy.last
 }
+
+javacOptions ++= Seq("-source", "1.7", "-target", "1.7") //Same version as in Hadoop
