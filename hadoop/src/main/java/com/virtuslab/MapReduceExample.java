@@ -59,7 +59,7 @@ public class MapReduceExample {
     public static JobConf getJob(String[] args) throws Exception {
         JobConf conf = new JobConf(MapReduceExample.class);
 
-        conf.setJobName("max_eletricityunits");
+        conf.setJobName("mapreduce_example");
         conf.setOutputKeyClass(Text.class);
         conf.setOutputValueClass(IntWritable.class);
         conf.setMapperClass(ExampleMapper.class);

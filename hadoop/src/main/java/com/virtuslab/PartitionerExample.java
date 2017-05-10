@@ -70,7 +70,7 @@ public class PartitionerExample {
     public static JobConf getJob(String[] args) throws Exception {
         JobConf conf = new JobConf(PartitionerExample.class);
 
-        conf.setJobName("topsal");
+        conf.setJobName("partitioner_example");
         conf.setMapperClass(MapClass.class);
         conf.setMapOutputKeyClass(Text.class);
         conf.setMapOutputValueClass(Text.class);
