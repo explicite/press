@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  hadoop:
+    image: sequenceiq/hadoop-docker:2.7.1
+    volumes:
+      - ~/input:/usr/local/hadoop/input
+      - ~/jobs:/usr/local/hadoop/jobs
+      - ~/output:/usr/local/hadoop/output

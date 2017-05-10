@@ -1,0 +1,54 @@
+Hadoop
+MapReduce
+11 May 2017
+Tags: hadoop, mapreduce, hdfs, java
+
+Jan Paw
+Developer, VirtusLab
+jpaw@virtuslab.com
+http://virtuslab.com
+
+draft
+
+* What Is Apache Hadoop?
+
+open-source software for reliable, scalable, distributed computing ...
+
+* MapReduce
+
+.image img/mapreduce.png 170 _
+
+.caption MapReduce pipeline
+.caption Mapper (Key, Value) -> (Key, Value)
+.caption Reducer (Key, Iterable[Value]) -> (Key, Value)
+.caption Partitioning | Sorting | Grouping (Key, Value) -> (Key, Iterable[Value])
+
+* HDFS
+
+.image img/hdfs.png 400 _ 
+
+.link https://www.youtube.com/watch?v=4Gfl0WuONMY YouTube - Understanding HDFS using Legos
+
+* Hadoop modules
+
+- Hadoop Common
+- Hadoop Distributed File System (HDFS)
+- Hadoop YARN
+- Hadoop MapReduce
+
+* Workshop
+
+- Pull docker image
+ docker run -it sequenceiq/hadoop-docker:2.7.1 /etc/bootstrap.sh -bash 
+
+* Testing
+
+- Run the mapreduce example
+ cd $HADOOP_PREFIX
+ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.1.jar \
+ grep input output 'dfs[a-z.]+'
+
+- Check the output
+ bin/hdfs dfs -cat output/*
+
+
