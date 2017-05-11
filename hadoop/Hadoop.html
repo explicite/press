@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)http://127.0.0.1:3999/hdoop.slide#6 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Hadoop</title>
+    
+    <script>
+      var notesEnabled =  false ;
+    </script>
+    <script src="./Hadoop_files/slides.js"></script>
+
+    
+
+    <script>
+      
+      if (window["location"] && window["location"]["hostname"] == "talks.golang.org") {
+        var _gaq = _gaq || [];
+        _gaq.push(["_setAccount", "UA-11222381-6"]);
+        _gaq.push(["b._setAccount", "UA-49880327-6"]);
+        window.trackPageview = function() {
+          _gaq.push(["_trackPageview", location.pathname+location.hash]);
+          _gaq.push(["b._trackPageview", location.pathname+location.hash]);
+        };
+        window.trackPageview();
+        window.trackEvent = function(category, action, opt_label, opt_value, opt_noninteraction) {
+          _gaq.push(["_trackEvent", category, action, opt_label, opt_value, opt_noninteraction]);
+          _gaq.push(["b._trackEvent", category, action, opt_label, opt_value, opt_noninteraction]);
+        };
+      }
+    </script>
+  <meta name="viewport" content="width=1100,height=750"><meta name="apple-mobile-web-app-capable" content="yes"></head>
+
+  <body style="display: none" class="loaded">
+
+    <section class="slides layout-widescreen">
+      
+      <article>
+        <h1>Hadoop</h1>
+        <h3>MapReduce</h3>
+        <h3>11 May 2017</h3>
+        
+          <div class="presenter">
+            
+  
+  <p>
+    Jan Paw
+  </p>
+  
+
+  
+  <p>
+    Developer, VirtusLab
+  </p>
+  
+
+          </div>
+        
+          <div class="presenter">
+            
+  
+  <p>
+    draft
+  </p>
+  
+
+          </div>
+        
+      </article>
+      
+  
+  
+      <article>
+      
+        <h3>What Is Apache Hadoop?</h3>
+        
+  <ul>
+  
+    <li>OS implementation MapReduce</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>...programming model for processing and generating large data sets</pre></div>
+  
+
+  <ul>
+  
+    <li>Start 2005 May ... still developed</li>
+  
+  </ul>
+
+  <ul>
+  
+    <li>Alternatives</li>
+  
+  </ul>
+<p class="link"><a href="http://flink.apache.org/" target="_blank">Flink</a></p><p class="link"><a href="http://spark.apache.org/" target="_blank">Spark</a></p><p class="link"><a href="http://storm.apache.org/" target="_blank">Storm</a></p><p class="link"><a href="https://streamsets.com/" target="_blank">StreamSets</a></p>
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>What Hadoop Is Not</h3>
+        
+  <ul>
+  
+    <li>Apache Hadoop is not a substitute for a database</li>
+  
+    <li>MapReduce is not always the best algorithm</li>
+  
+    <li>HDFS is not a complete POSIX filesystem</li>
+  
+    <li>...</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article class="far-past">
+      
+        <h3>What Is MapReduce?</h3>
+        
+  <ul>
+  
+    <li>Programming model</li>
+  
+  </ul>
+
+  
+  <p>
+    For processing and generating large data sets.
+  </p>
+  
+<p class="link"><a href="https://research.google.com/archive/mapreduce.html" target="_blank">Google - Appeared on 2004 Dec</a></p>
+      
+      </article>
+  
+  
+  
+      <article class="past">
+      
+        <h3>MapReduce</h3>
+        
+<div class="image">
+  <img src="./Hadoop_files/mapreduce.png" height="170">
+</div>
+<figcaption>MapReduce pipeline</figcaption><figcaption>Mapper (Key, Value) -&gt; Iterable[(Key, Value)]</figcaption><figcaption>Reducer (Key, Iterable[Value]) -&gt; (Key, Value)</figcaption><figcaption>Partitioning | Sorting | Grouping (Key, Value) -&gt; (Key, Iterable[Value])</figcaption>
+      
+      </article>
+  
+  
+  
+      <article class="current">
+      
+        <h3>HDFS</h3>
+        
+<div class="image">
+  <img src="./Hadoop_files/hdfs.png" height="400">
+</div>
+<p class="link"><a href="https://www.youtube.com/watch?v=4Gfl0WuONMY" target="_blank">YouTube - Understanding HDFS using Legos</a></p><p class="link"><a href="https://research.google.com/archive/gfs.html" target="_blank">Google File System</a></p>
+      
+      </article>
+  
+  
+  
+      <article class="next">
+      
+        <h3>HDFS - write</h3>
+        
+<div class="image">
+  <img src="./Hadoop_files/write.png" height="400">
+</div>
+
+      
+      </article>
+  
+  
+  
+      <article class="far-next">
+      
+        <h3>HDFS - read</h3>
+        
+<div class="image">
+  <img src="./Hadoop_files/read.png" height="400">
+</div>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Hadoop demons</h3>
+        
+  
+  <p>
+    1. Namenode – It runs on master node for HDFS.
+<br>
+
+    2. Datanode – It runs on slave nodes for HDFS.
+<br>
+
+    3. ResourceManager – It runs on master node for Yarn.
+<br>
+
+    4. NodeManager – It runs on slave node for Yarn.
+  </p>
+  
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Hadoop modules</h3>
+        
+  <ul>
+  
+    <li>Hadoop Common</li>
+  
+    <li>Hadoop Distributed File System (HDFS)</li>
+  
+    <li>Hadoop YARN</li>
+  
+    <li>Hadoop MapReduce</li>
+  
+    <li>...</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Hadoop CLI</h3>
+        
+  <ul>
+  
+    <li>bin/hadoop fs &lt;args&gt;</li>
+  
+    <li>bin/hadoop fs -copyFromLocal &lt;localsrc&gt; URI</li>
+  
+    <li>bin/hadoop fs -put &lt;localsrc&gt; ... &lt;dst&gt;</li>
+  
+  </ul>
+<p class="link"><a href="https://hadoop.apache.org/docs/r2.7.1/hadoop-project-dist/hadoop-common/FileSystemShell.html" target="_blank">other commands</a></p>
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Hadoop API</h3>
+        
+  <ul>
+  
+    <li>Java (JVM)</li>
+  
+    <li>Python</li>
+  
+    <li>Ruby</li>
+  
+    <li>...</li>
+  
+    <li>Any executable on cluster nodes ;)</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Hadoop API</h3>
+        
+  
+  <div class="code"><pre>hadoop jar /usr/lib/hadoop-0.20-mapreduce/contrib/streaming/hadoop-streaming-2.0.0-mr1-cdh4.1.2.jar \
+       -input /ngrams \
+       -output /output-streaming \
+       -mapper mapper.py \
+       -combiner reducer.py \
+       -reducer reducer.py \
+       -jobconf stream.num.map.output.key.fields=3 \
+       -jobconf stream.num.reduce.output.key.fields=3 \
+       -jobconf mapred.reduce.tasks=10 \
+       -file mapper.py \
+       -file reducer.py</pre></div>
+  
+<p class="link"><a href="https://github.com/cloudera/python-ngrams" target="_blank">full source code</a></p>
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Workshop</h3>
+        
+  <ul>
+  
+    <li>Run hadoop in docker</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>you@localhost docker-compose up</pre></div>
+  
+
+  <ul>
+  
+    <li>Check docker hash</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>you@localhost docker ps</pre></div>
+  
+
+  <ul>
+  
+    <li>Exec bash on hadoop host</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>you@localhost docker exec -it `hash` bash</pre></div>
+  
+
+  <ul>
+  
+    <li>Move to hadoop dir</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>hadoop@docker cd $HADOOP_PREFIX</pre></div>
+  
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Testing</h3>
+        
+  <ul>
+  
+    <li>Run the mapreduce example</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>hadoop@docker bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.1.jar \
+grep input output 'dfs[a-z.]+'</pre></div>
+  
+
+  <ul>
+  
+    <li>Check output</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>hadoop@docker bin/hdfs dfs -cat output/*</pre></div>
+  
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Hadoop UI</h3>
+        <p class="link"><a href="http://localhost:8088/" target="_blank">localhost:8088/</a></p>
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>MapReduce</h3>
+        
+  <ul>
+  
+    <li>Open file</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>com.virtuslab.MapReduceExample.java</pre></div>
+  
+
+  <ul>
+  
+    <li>Reducer</li>
+  
+  </ul>
+
+  <ul>
+  
+    <li>Mapper</li>
+  
+  </ul>
+
+  <ul>
+  
+    <li>Combiner</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Reducer</h3>
+        
+  <ul>
+  
+    <li>Shuffle</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>Reducer copies the sorted output from each Mapper using HTTP across the network.
+Shuffle and sort are simultaneously</pre></div>
+  
+
+  <ul>
+  
+    <li>Sort</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>Merge sorts Reducer inputs by keys (since different Mappers may have output the same key)</pre></div>
+  
+
+  <ul>
+  
+    <li>Reduce</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>Called for each (Key, Iterable[Value])</pre></div>
+  
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Mapper</h3>
+        
+  <ul>
+  
+    <li>Maps input (key, value) pairs to a set of intermediate Iterable[(key,value)] pairs.</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Combiner</h3>
+        
+  <ul>
+  
+    <li>between the Map class and the Reduce</li>
+  
+    <li>does not have a predefined interface and it must implement the Reducer interface’s reduce() method</li>
+  
+    <li>operates on each map output key</li>
+  
+    <li>can produce summary information from a large dataset</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>MapReduce</h3>
+        
+  <ul>
+  
+    <li>Copy input to docker</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>you@localhost cp src/main/resources/mapreduce ~/input</pre></div>
+  
+
+  <ul>
+  
+    <li>Add file to hdfs</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>hadoop@docker bin/hadoop fs -mkdir input //if not exist
+hadoop@docker bin/hadoop fs -put input/mapreduce input</pre></div>
+  
+
+  <ul>
+  
+    <li>Create ouput dir</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>hadoop@docker bin/hadoop fs -mkdir output //if not exist</pre></div>
+  
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>MapReduce</h3>
+        
+  <ul>
+  
+    <li>Compile source</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>you@localhost sbt assembly</pre></div>
+  
+
+  <ul>
+  
+    <li>Copy *.jar to docker</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>you@localhost cp target/hadoop-example-2.7.1.jar ~/jobs</pre></div>
+  
+
+  <ul>
+  
+    <li>Run job</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>hadoop@docker bin/hadoop jar jobs/hadoop-example-2.7.1.jar input output
+
+...
+CONNECTION=0
+IO_ERROR=0
+WRONG_LENGTH=0
+WRONG_MAP=0
+WRONG_REDUCE=0
+File Input Format Counters
+Bytes Read=336
+File Output Format Counters
+Bytes Written=24</pre></div>
+  
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>MapReduce</h3>
+        
+  
+  <div class="code"><pre>- Check result
+bin/hadoop fs -copyToLocal output/part-00000 ./otuput/result
+
+1981    34
+1984    40
+1985    45</pre></div>
+  
+
+      
+      </article>
+  
+  
+  
+      <article>
+      
+        <h3>Partitioner</h3>
+        
+  <ul>
+  
+    <li>Open file</li>
+  
+  </ul>
+
+  
+  <div class="code"><pre>com.virtuslab.PartitionerExample.java</pre></div>
+  
+
+  <ul>
+  
+    <li>Partitioner</li>
+  
+  </ul>
+
+      
+      </article>
+  
+  
+
+      <article>
+        <h3>Thank you</h3>
+        
+          <div class="presenter">
+            
+  
+  <p>
+    Jan Paw
+  </p>
+  
+
+  
+  <p>
+    Developer, VirtusLab
+  </p>
+  
+<p class="link"><a href="mailto:jpaw@virtuslab.com" target="_blank">jpaw@virtuslab.com</a></p><p class="link"><a href="http://virtuslab.com/" target="_blank">http://virtuslab.com</a></p>
+          </div>
+        
+          <div class="presenter">
+            
+  
+  <p>
+    draft
+  </p>
+  
+
+          </div>
+        
+      </article>
+
+    <div class="slide-area" id="prev-slide-area"></div><div class="slide-area" id="next-slide-area"></div></section>
+
+    <div id="help" style="display: none;">
+      Use the left and right arrow keys or click the left and right
+      edges of the page to navigate between slides.<br>
+      (Press 'H' or navigate to hide this message.)
+    </div>
+
+    
+    <script src="./Hadoop_files/play.js"></script>
+    
+
+    <script>
+      (function() {
+        
+        if (window["location"] && window["location"]["hostname"] == "talks.golang.org") {
+          var ga = document.createElement("script"); ga.type = "text/javascript"; ga.async = true;
+          ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";
+          var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ga, s);
+        }
+      })();
+    </script>
+  
+
+<link rel="stylesheet" type="text/css" href="./Hadoop_files/css"><link rel="stylesheet" type="text/css" href="./Hadoop_files/styles.css"></body><div></div></html>
