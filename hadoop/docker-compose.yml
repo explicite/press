@@ -7,3 +7,24 @@ services:
       - ~/input:/usr/local/hadoop/input
       - ~/jobs:/usr/local/hadoop/jobs
       - ~/output:/usr/local/hadoop/output
+    ports:
+      # Hdfs ports
+      - "50010:50010"
+      - "50020:50020"
+      - "50070:50070"
+      - "50075:50075"
+      - "50090:50090"
+      - "8020:8020"
+      # Mapred ports
+      - "19888:19888"
+      #Yarn ports
+      - "8030:8030"
+      - "8031:8031"
+      - "8032:8032"
+      - "8033:8033"
+      - "8040:8040"
+      - "8042:8042"
+      - "8088:8088"
+      #Other ports
+      - "49707:49707"
+      - "2122:2122"

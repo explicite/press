@@ -13,11 +13,10 @@ draft
 * What Is Apache Hadoop?
 
 - OS implementation MapReduce
-.link https://research.google.com/archive/mapreduce.html Google - Appeared on 2004 Dec
 
- programming model for processing and generating large data sets
+ ...programming model for processing and generating large data sets
 
-- First commit on 2005 May and still developed
+- Start 2005 May ... still developed
 
 - Alternatives
 .link http://flink.apache.org/ Flink
@@ -33,20 +32,22 @@ draft
 
 * What Is MapReduce?
 
-- Programming model 
+- Programming model
 
 For processing and generating large data sets.
+
+.link https://research.google.com/archive/mapreduce.html Google - Appeared on 2004 Dec
 
 * MapReduce
 
 .image img/mapreduce.png 170 _
 
 .caption MapReduce pipeline
-.caption Mapper (Key, Value) -> (Key, Value)
+.caption Mapper (Key, Value) -> Iterable[(Key, Value)]
 .caption Reducer (Key, Iterable[Value]) -> (Key, Value)
 .caption Partitioning | Sorting | Grouping (Key, Value) -> (Key, Iterable[Value])
 
-* HDFS 
+* HDFS
 
 .image img/hdfs.png 400 _
 
@@ -61,6 +62,12 @@ For processing and generating large data sets.
 
 .image img/read.png 400 _
 
+* Hadoop demons
+1. Namenode – It runs on master node for HDFS.
+2. Datanode – It runs on slave nodes for HDFS.
+3. ResourceManager – It runs on master node for Yarn.
+4. NodeManager – It runs on slave node for Yarn.
+
 * Hadoop modules
 
 - Hadoop Common
@@ -69,13 +76,18 @@ For processing and generating large data sets.
 - Hadoop MapReduce
 - ...
 
+* Hadoop CLI
+- bin/hadoop fs <args>
+- bin/hadoop fs -copyFromLocal <localsrc> URI
+- bin/hadoop fs -put <localsrc> ... <dst>
+.link https://hadoop.apache.org/docs/r2.7.1/hadoop-project-dist/hadoop-common/FileSystemShell.html other commands
+
 * Hadoop API
 - Java (JVM)
 - Python
 - Ruby
 - ...
 - Any executable on cluster nodes ;)
-- Hadoop job
 
 * Hadoop API
  hadoop jar /usr/lib/hadoop-0.20-mapreduce/contrib/streaming/hadoop-streaming-2.0.0-mr1-cdh4.1.2.jar \
@@ -115,6 +127,9 @@ For processing and generating large data sets.
 - Check output
  hadoop@docker bin/hdfs dfs -cat output/*
 
+* Hadoop UI
+.link http://localhost:8088/
+
 * MapReduce
 
 - Open file
@@ -123,6 +138,29 @@ For processing and generating large data sets.
 - Reducer
 
 - Mapper
+
+- Combiner
+
+* Reducer
+
+- Shuffle
+ Reducer copies the sorted output from each Mapper using HTTP across the network.
+ Shuffle and sort are simultaneously
+
+- Sort
+ Merge sorts Reducer inputs by keys (since different Mappers may have output the same key)
+
+- Reduce
+ Called for each (Key, Iterable[Value])
+
+* Mapper
+- Maps input (key, value) pairs to a set of intermediate Iterable[(key,value)] pairs.
+
+* Combiner
+- between the Map class and the Reduce
+- does not have a predefined interface and it must implement the Reducer interface’s reduce() method
+- operates on each map output key
+- can produce summary information from a large dataset
 
 * MapReduce
 
